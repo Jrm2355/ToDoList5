@@ -33,6 +33,7 @@ class TaskController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $task->setCreatedAt(new \DateTimeImmutable);
             $task->setIsDone(false);
+            $task->setUser($this->getUser());
             $taskRepository->add($task, true);
             $this->addFlash('success', 'La tâche a été bien été ajoutée.');
 
@@ -62,8 +63,9 @@ class TaskController extends AbstractController
         $form = $this->createForm(TaskType::class, $task);
 
         $form->handleRequest($request);
+        var_dump($task);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $this->$taskRepository->add($task, true);
 
             $this->addFlash('success', 'La tâche a bien été modifiée.');
@@ -78,22 +80,18 @@ class TaskController extends AbstractController
     }
 
     #[Route('/tasks/{id}/delete', name: 'task_delete')]
-    public function deleteTaskAction(Request $request, Task $task, TaskRepository $taskRepository)
+    public function deleteTaskAction(Task $task, TaskRepository $taskRepository)
     {
-        if($task->getUser() === null && $this->container->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+        if($task->getUser() === null && $this->container->get('security.authorization_checker')->isGranted('ROLE_ADMIN') ){
+            $taskRepository->remove($task, true);
+            $this->addFlash('success', 'La tâche a bien été supprimée.');
+        }elseif($task->getUser() == $this->getUser() && $task->getUser() !== null){
             $taskRepository->remove($task, true);
             $this->addFlash('success', 'La tâche a bien été supprimée.');
         }else{
             $this->addFlash('error', 'Vous n\'avez pas les droits.');
         }
-
-        if($task->getUser() == $this->getUser() && $task->getUser() !== null ){
-            $taskRepository->remove($task, true);
-            $this->addFlash('success', 'La tâche a bien été supprimée.');
-        }else{
-            $this->addFlash('error', 'Vous n\'avez pas les droits.');
-        }
-
+        
         return $this->redirectToRoute('task_list');
     }
 }
