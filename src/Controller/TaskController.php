@@ -83,11 +83,17 @@ class TaskController extends AbstractController
         if($task->getUser() === null && $this->container->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
             $taskRepository->remove($task, true);
             $this->addFlash('success', 'La tâche a bien été supprimée.');
+        }else{
+            $this->addFlash('error', 'Vous n\'avez pas les droits.');
         }
-        if($task->getUser() == $this->getUser() &&$task->getUser() !== null ){
+
+        if($task->getUser() == $this->getUser() && $task->getUser() !== null ){
             $taskRepository->remove($task, true);
             $this->addFlash('success', 'La tâche a bien été supprimée.');
+        }else{
+            $this->addFlash('error', 'Vous n\'avez pas les droits.');
         }
+
         return $this->redirectToRoute('task_list');
     }
 }
