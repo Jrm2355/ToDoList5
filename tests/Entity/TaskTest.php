@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Tests;
+namespace App\Tests\Entity;
 
-use DateTime;
 use App\Entity\Task;
 use App\Entity\User;
 use PHPUnit\Framework\TestCase;
