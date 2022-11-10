@@ -70,7 +70,7 @@ class ToDoListFixtures extends Fixture
                 $task->setContent($t["content"]);
                 $task->setCreatedAt(new \DateTimeImmutable());
                 $task->setIsDone(false);
-                $task->setUser($user);
+                $task->setUser(null);
                 $manager->persist($task);
             }
         }

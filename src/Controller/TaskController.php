@@ -50,7 +50,7 @@ class TaskController extends AbstractController
     public function toggleTaskAction(Task $task, TaskRepository $taskRepository)
     {
         $task->toggle(!$task->isIsDone());
-        $this->$taskRepository->add($task, true);
+        $taskRepository->add($task, true);
 
         $this->addFlash('success', sprintf('La tâche %s a bien été marquée comme faite.', $task->getTitle()));            
 
