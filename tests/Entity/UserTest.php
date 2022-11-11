@@ -4,6 +4,7 @@ namespace App\Tests\Entity;
 
 use App\Entity\Task;
 use App\Entity\User;
+use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\TestCase;
 
 class UserTest extends TestCase
@@ -17,10 +18,12 @@ class UserTest extends TestCase
             ->setEmail('email@gmail.com')
             ->setRoles(['ROLE_ADMIN']);
 
+        $this->assertTrue($user->getUsername() === 'Username');
         $this->assertTrue($user->getUserIdentifier() === 'Username');
         $this->assertTrue($user->getPassword() === 'password');
         $this->assertTrue($user->getEmail() === 'email@gmail.com');
-        $this->assertTrue($user->getRoles() === ['ROLE_ADMIN', 'ROLE_USER']); 
+        $this->assertTrue($user->getRoles() === ['ROLE_ADMIN', 'ROLE_USER']);
+
     }
 
     public function testIsFalse()
@@ -36,6 +39,8 @@ class UserTest extends TestCase
         $this->assertFalse($user->getPassword() === 'false');
         $this->assertFalse($user->getEmail() === 'false');
         $this->assertFalse($user->getRoles() === ['false']); 
+
+        $user->getSalt();
     }
 
     public function testIsEmpty()
@@ -45,6 +50,21 @@ class UserTest extends TestCase
 
         $this->assertEmpty($user->getUserIdentifier());
         $this->assertEmpty($user->getPassword());
-        $this->assertEmpty($user->getEmail()); 
+        $this->assertEmpty($user->getEmail());
+        $this->assertEmpty($user->getTasks());
+        $this->assertEmpty($user->getId());
+    }
+
+    public function testAddRemoveTask(){
+        $user = new User();
+        $task = new Task();
+
+        $this->assertEmpty($user->getTasks());
+
+        $user->addTask($task);
+        $this->assertContains($task, $user->getTasks());
+
+        $user->removeTask($task);
+        $this->assertEmpty($user->getTasks());
     }
 }

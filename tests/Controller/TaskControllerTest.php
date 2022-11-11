@@ -3,6 +3,7 @@
 namespace App\Tests\Controller;
 
 use App\Entity\Task;
+use App\Form\TaskType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
@@ -15,15 +16,25 @@ class TaskControllerTest extends WebTestCase
     public function setUp() : void
     {
         $this->client = static::createClient();
+        $this->urlGenerator = $this->client->getContainer()->get('router.default');
+        
     }
 
     public function testTaskListIsUp()
     {
-        $taskRepository = $this->client->getContainer()->get('doctrine.orm.entity_manager')->getRepository(Task::class);
-        $testTasks = $taskRepository->findAll();
+        $this->client->request(Request::METHOD_GET, $this->urlGenerator->generate('task_list'));
+        $this->assertResponseStatusCodeSame(Response::HTTP_OK);
+    }
 
-        $urlGenerator = $this->client->getContainer()->get('router.default');
-        $this->client->request(Request::METHOD_GET, $urlGenerator->generate('task_list'));
+    public function testTaskCreate()
+    {
+        $crawler = $this->client->request(Request::METHOD_GET, $this->urlGenerator->generate('task_create'));
+
+        $form = $crawler->selectButton('Ajouter')->form();
+        $form['task[title]'] = 'titre';
+        $form['task[content]'] = 'contenu du todo';
+        $this->client->submit($form);
+        $this->client->followRedirect();
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
     }
 }

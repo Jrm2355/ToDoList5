@@ -63,8 +63,7 @@ class TaskController extends AbstractController
         $form = $this->createForm(TaskType::class, $task);
 
         $form->handleRequest($request);
-        var_dump($task);
-
+        
         if ($form->isSubmitted() && $form->isValid()) {
             $this->$taskRepository->add($task, true);
 

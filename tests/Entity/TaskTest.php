@@ -17,19 +17,23 @@ class TaskTest extends TestCase
         $task->setTitle('Titre')
                 ->setCreatedAt($datetime)
                 ->setContent('Contenu')
-                ->setUser($user);
+                ->setUser($user)
+                ->setIsDone(false);
 
         $this->assertTrue($task->getTitle() === 'Titre');
         $this->assertTrue($task->getCreatedAt() === $datetime);
         $this->assertTrue($task->getContent() === 'Contenu');
         $this->assertTrue($task->getUser() === $user);
+        $this->assertTrue($task->isIsDone() === false);
+
+        $task->toggle(!$task->isIsDone());
+        $this->assertTrue($task->isIsDone() === true);
     }
 
     public function testIsFalse()
     {
         $task = new Task();
         $datetime = new \DateTimeImmutable();
-        $user = new User();
 
         $task->setTitle('Titre')
                 ->setCreatedAt($datetime)
@@ -38,7 +42,6 @@ class TaskTest extends TestCase
         $this->assertFalse($task->getTitle() === 'false');
         $this->assertFalse($task->getCreatedAt() === new \DateTimeImmutable());
         $this->assertFalse($task->getContent() === 'false');
-        $this->assertFalse($task->getUser() === 'false');
     }
     
     public function testIsEmpty()

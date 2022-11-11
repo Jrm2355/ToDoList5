@@ -42,11 +42,6 @@ class Task
      */
     private $user;
 
-    public function __toString()
-    {
-        return $this->isDone;
-    }
-
     public function getId(): ?int
     {
         return $this->id;

@@ -53,6 +53,17 @@ class ToDoListFixtures extends Fixture
             ],
         ];
 
+        $tasks = [
+            [
+                "title"=>"Tâche Anonyme",
+                "content"=>"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam vitae malesuada lorem. Donec rutrum vulputate felis, vel lobortis mi vulputate in. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Phasellus vitae dapibus massa. Nunc vel suscipit metus. Sed id lacus quam. Duis elementum porttitor tellus vitae pellentesque.",
+            ],
+            [
+                "title"=>"Tâche Anonyme",
+                "content"=>"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam vitae malesuada lorem. Donec rutrum vulputate felis, vel lobortis mi vulputate in. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Phasellus vitae dapibus massa. Nunc vel suscipit metus. Sed id lacus quam. Duis elementum porttitor tellus vitae pellentesque.",
+            ],
+        ];
+
         foreach ($users as $u) {
             $user = new User();
             $user->setUsername($u["username"]);
@@ -70,9 +81,18 @@ class ToDoListFixtures extends Fixture
                 $task->setContent($t["content"]);
                 $task->setCreatedAt(new \DateTimeImmutable());
                 $task->setIsDone(false);
-                $task->setUser(null);
+                $task->setUser($user);
                 $manager->persist($task);
             }
+        }
+        foreach ($tasks as $t) {
+            $task = new Task();
+            $task->setTitle($t["title"]);
+            $task->setContent($t["content"]);
+            $task->setCreatedAt(new \DateTimeImmutable());
+            $task->setIsDone(false);
+            $task->setUser(null);
+            $manager->persist($task);
         }
         $manager->flush();
     }
