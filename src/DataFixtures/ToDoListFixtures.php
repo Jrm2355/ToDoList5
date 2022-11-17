@@ -8,6 +8,9 @@ use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 
+/**
+ * @codeCoverageIgnore
+ */
 
 class ToDoListFixtures extends Fixture
 {
