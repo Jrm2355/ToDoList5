@@ -12,7 +12,10 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SecurityController extends AbstractController
 {
-    #[Route('/login', name: 'login')]
+
+    /**
+     * @Route("/login", name="login")
+     */
     public function loginAction(AuthenticationUtils $authenticationUtils)
     {
         {    
@@ -34,7 +37,9 @@ class SecurityController extends AbstractController
     //     // This code is never executed.
     // }
 
-    #[Route(path: '/logout', name: 'logout')]
+    /**
+     * @Route("/logout", name="logout")
+     */
     public function logoutCheck()
     {
         // This code is never executed.

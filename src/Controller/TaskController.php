@@ -12,7 +12,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class TaskController extends AbstractController
 {
-    #[Route('/tasks', name: 'task_list')]
+    /**
+     * @Route("/task", name="task_list")
+     */
     public function listAction(TaskRepository $taskRepository)
     {
         $tasks = $taskRepository->findAll();
@@ -23,6 +25,9 @@ class TaskController extends AbstractController
     }
 
     #[Route('/tasks/create', name: 'task_create')]
+    /**
+     * @Route("/task/create", name="task_create")
+     */
     public function createAction(Request $request, TaskRepository $taskRepository)
     {
         $task = new Task();
@@ -46,7 +51,9 @@ class TaskController extends AbstractController
         ]);
     }
 
-    #[Route('/tasks/{id}/toggle', name: 'task_toggle')]
+    /**
+     * @Route("/tasks/{id}/toggle", name="task_toggle")
+     */
     public function toggleTaskAction(Task $task, TaskRepository $taskRepository)
     {
         $task->toggle(!$task->isIsDone());
@@ -57,7 +64,9 @@ class TaskController extends AbstractController
         return $this->redirectToRoute('task_list');
     }
 
-    #[Route('/tasks/{id}/edit', name: 'task_edit')]
+    /**
+     * @Route("/tasks/{id}/edit", name="task_edit")
+     */
     public function editAction(Task $task, Request $request, TaskRepository $taskRepository)
     {
         $form = $this->createForm(TaskType::class, $task);
@@ -78,7 +87,9 @@ class TaskController extends AbstractController
         ]);
     }
 
-    #[Route('/tasks/{id}/delete', name: 'task_delete')]
+    /**
+     * @Route("/tasks/{id}/delete", name="task_delete")
+     */
     public function deleteTaskAction(Task $task, TaskRepository $taskRepository)
     {
         if($task->getUser() === null && $this->container->get('security.authorization_checker')->isGranted('ROLE_ADMIN') ){
