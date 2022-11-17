@@ -5,10 +5,11 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\UserType;
 use App\Repository\UserRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
 {
@@ -16,7 +17,7 @@ class SecurityController extends AbstractController
     /**
      * @Route("/login", name="login")
      */
-    public function loginAction(AuthenticationUtils $authenticationUtils)
+    public function loginAction(AuthenticationUtils $authenticationUtils) : Response
     {
         {    
             // get the login error if there is one

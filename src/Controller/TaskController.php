@@ -15,7 +15,7 @@ class TaskController extends AbstractController
     /**
      * @Route("/task", name="task_list")
      */
-    public function listAction(TaskRepository $taskRepository)
+    public function listAction(TaskRepository $taskRepository) : Response
     {
         $tasks = $taskRepository->findAll();
 
@@ -27,7 +27,7 @@ class TaskController extends AbstractController
     /**
      * @Route("/task/create", name="task_create")
      */
-    public function createAction(Request $request, TaskRepository $taskRepository)
+    public function createAction(Request $request, TaskRepository $taskRepository) : Response
     {
         $task = new Task();
         $form = $this->createForm(TaskType::class, $task);
@@ -53,7 +53,7 @@ class TaskController extends AbstractController
     /**
      * @Route("/tasks/{id}/toggle", name="task_toggle")
      */
-    public function toggleTaskAction(Task $task, TaskRepository $taskRepository)
+    public function toggleTaskAction(Task $task, TaskRepository $taskRepository) : Response
     {
         $task->toggle(!$task->isIsDone());
         $taskRepository->add($task, true);
@@ -66,7 +66,7 @@ class TaskController extends AbstractController
     /**
      * @Route("/tasks/{id}/edit", name="task_edit")
      */
-    public function editAction(Task $task, Request $request, TaskRepository $taskRepository)
+    public function editAction(Task $task, Request $request, TaskRepository $taskRepository) : Response
     {
         $form = $this->createForm(TaskType::class, $task);
 
@@ -89,7 +89,7 @@ class TaskController extends AbstractController
     /**
      * @Route("/tasks/{id}/delete", name="task_delete")
      */
-    public function deleteTaskAction(Task $task, TaskRepository $taskRepository)
+    public function deleteTaskAction(Task $task, TaskRepository $taskRepository) : Response
     {
         if($task->getUser() === null && $this->container->get('security.authorization_checker')->isGranted('ROLE_ADMIN') ){
             $taskRepository->remove($task, true);
