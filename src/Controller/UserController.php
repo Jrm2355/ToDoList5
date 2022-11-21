@@ -17,7 +17,7 @@ class UserController extends AbstractController
     /**
      * @Route("/users", name="user_list")
      */
-    public function listAction(UserRepository $userRepository) : Response
+    public function listUserAction(UserRepository $userRepository) : Response
     {
         $users = $userRepository->findAll();
 
@@ -29,7 +29,7 @@ class UserController extends AbstractController
     /**
      * @Route("/users/create", name="user_create")
      */  
-    public function createAction(Request $request, UserRepository $userRepository, UserPasswordHasherInterface $userPasswordHasher) : Response
+    public function createUserAction(Request $request, UserRepository $userRepository, UserPasswordHasherInterface $userPasswordHasher) : Response
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
@@ -58,7 +58,7 @@ class UserController extends AbstractController
     /**
      * @Route("/users/{id}/edit", name="user_edit")
      */
-    public function editAction(User $user, UserRepository $userRepository, Request $request, UserPasswordHasherInterface $userPasswordHasher) : Response
+    public function editUserAction(User $user, UserRepository $userRepository, Request $request, UserPasswordHasherInterface $userPasswordHasher) : Response
     {
         $form = $this->createForm(UserType::class, $user);
 

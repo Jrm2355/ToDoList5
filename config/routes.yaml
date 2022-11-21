@@ -1,3 +1,3 @@
 index:
     path: /
-    controller: App\Controller\TaskController:listAction
+    controller: App\Controller\TaskController:listTaskAction
